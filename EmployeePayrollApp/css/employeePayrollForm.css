@@ -156,6 +156,7 @@ select {
     margin-right: 30px;
 }
 
-.cancelButton{
+.cancelButton, .resetButton{
     text-align: center;
+    text-decoration: none;
 }
