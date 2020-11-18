@@ -11,8 +11,12 @@ class EmployeePayRollData {
 
     get name() { return this._name; }
     set name(name) {
-        this._name = name;
-    }
+        let regexName = RegExp('^[A-Z][a-z]{3,}$');
+        if (regexName.test(name))
+            this._name = name;
+        else
+            throw 'Name is Invalid!';
+    };
     get profilePic() { return this._profilePic; }
     set profilePic(profilePic) { this._profilePic = profilePic; }
 
@@ -29,7 +33,10 @@ class EmployeePayRollData {
 
     get startDate() { return this._startDate; }
     set startDate(startDate) {
-        this._startDate = startDate;
+        if (startDate <= new Date())
+            this._startDate = startDate;
+        else
+            throw 'StartDate is Invalid!';
     }
 
     get notes() { return this._notes; }
@@ -42,20 +49,25 @@ class EmployeePayRollData {
             year: 'numeric', month: 'numeric', day: 'numeric'
         };
         const empDate = !this.startDate ? "undefined" : this.startDate.toLocaleDateString("en-IN", options);
-        return "name = " + this.name + ", profilePic = " + this.profilePic + ", salary = " + this.salary + ", gender = " + this.gender + ", department = " + this.department + ", startDate = " + empDate+ ", notes= " + this.notes;
+        return "name = " + this.name + ", profilePic = " + this.profilePic + ", salary = " + this.salary + ", gender = " + this.gender + ", department = " + this.department + ", startDate = " + empDate + ", notes= " + this.notes;
     }
 }
 
 function save() {
     let employeePayrollData = new EmployeePayRollData();
-    employeePayrollData.name = getInputValueById("#name");
-    employeePayrollData.profilePic = getSelectedValues("[name = profile]").pop();
-    employeePayrollData.gender = getSelectedValues("[name = gender]").pop();
-    employeePayrollData.department = getSelectedValues("[name = department]");
-    employeePayrollData.salary = getInputValueById("#salary");
-    employeePayrollData.notes = getInputValueById("#notes");
-   employeePayrollData.startDate = new Date(getInputValueById("#year"), getInputValueById("#month"), getInputValueById("#day"));
-   alert(employeePayrollData.toString());
+    try {
+        employeePayrollData.name = getInputValueById("#name");
+        employeePayrollData.profilePic = getSelectedValues("[name = profile]").pop();
+        employeePayrollData.gender = getSelectedValues("[name = gender]").pop();
+        employeePayrollData.department = getSelectedValues("[name = department]");
+        employeePayrollData.salary = getInputValueById("#salary");
+        employeePayrollData.notes = getInputValueById("#notes");
+        employeePayrollData.startDate = new Date(getInputValueById("#year"), getInputValueById("#month"), getInputValueById("#day"));
+        alert(employeePayrollData.toString());
+    }
+    catch (error) {
+        console.error(error);
+    }
 }
 
 let getSelectedValues = (property) => {
