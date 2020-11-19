@@ -5,11 +5,15 @@ class EmployeePayrollData{
     set id(id){
         this._id = id;
     }
-    get name{
+    get name(){
         return this._name;
     }
-    set name(name){
-        this._name = name;
+    set name(name) {
+        let nameRegex = RegExp("^[A-Z]{1}[a-zA-Z\\s]{2,}$");
+        if (nameRegex.test(name))
+            this._name = name;
+        else
+            throw 'Name is Invalid!'
     }
     get profilePic(){
         return this._profilePic;
@@ -38,14 +42,17 @@ class EmployeePayrollData{
     get notes(){
         return this._notes;
     }
-    set note(note){
+    set notes(notes){
         this._notes = notes;
     }
     get startDate(){
         return this._startDate;
     }
     set startDate(startDate){
-        this._startDate = startDate;
+        if (startDate <= new Date())
+            this._startDate = startDate;
+        else
+            throw 'StartDate is Invalid!';
     }
 
     toString() {
