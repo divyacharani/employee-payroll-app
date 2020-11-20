@@ -30,8 +30,8 @@ const createInnerHtml = () => {
             <td>${employeePayrollData._salary}</td>
             <td>${formatDate(employeePayrollData._startDate)}</td>
             <td>
-                <img name="${employeePayrollData._id}" onclick="remove()" alt="delete" src="../assets/icons/delete-black-18dp.svg">
-                <img name="${employeePayrollData._id}" onclick="update()" alt="edit" src="../assets/icons/create-black-18dp.svg">
+                <img id="${employeePayrollData._id}" onclick="remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
+                <img id="${employeePayrollData._id}" onclick="update(this)" alt="edit" src="../assets/icons/create-black-18dp.svg">
             </td>
     </tr>`;
     }
@@ -50,7 +50,17 @@ const formatDate = (date) => {
     let startDate = new Date(date);
     const options = {
         year: 'numeric', month: 'long', day: 'numeric'
-    };
+    }; 
     const empDate = !startDate ? "undefined" : startDate.toLocaleDateString("en-IN", options);
     return empDate;
+}
+
+const remove = (node) => {
+    let employeePayrollData = employeePayrollList.find(emp => emp._id == node.id);
+    if(!employeePayrollData) return;
+    const index = employeePayrollList.map(emp => emp._id).indexOf(employeePayrollData._id);
+    employeePayrollList.splice(index,1);
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
+    document.querySelector(".emp-count").textContent = employeePayrollList.length;
+    createInnerHtml();
 }

@@ -60,6 +60,6 @@ class EmployeePayrollData{
             year: 'numeric', month: 'long', day: 'numeric'
         };
         const empDate = !this.startDate ? "undefined" : this.startDate.toLocaleDateString("en-IN", options);
-        return "name = " + this.name + ", profilePic = " + this.profilePic + ", salary = " + this.salary + ", gender = " + this.gender + ", department = " + this.department + ", startDate = " + empDate + ", notes= " + this.notes;
+        return "id = "+this.id+", name = " + this.name + ", profilePic = " + this.profilePic + ", salary = " + this.salary + ", gender = " + this.gender + ", department = " + this.department + ", startDate = " + empDate + ", notes= " + this.notes;
     }
 }
