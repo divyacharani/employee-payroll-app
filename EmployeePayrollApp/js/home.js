@@ -18,8 +18,11 @@ const createInnerHtml = () => {
     <th>Start Date</th>
     <th>Actions</th>
     </tr>`;
-    if(employeePayrollList.length==0) return;
     let innerHtml = `${headerHtml}`;
+    if(employeePayrollList.length==0) {
+        document.querySelector('#table-display').innerHTML = innerHtml;
+        return;
+    }
     for(const employeePayrollData of employeePayrollList){
         innerHtml = `${innerHtml}
         <tr>
@@ -46,15 +49,6 @@ const getDeptHtml = (deptList) => {
     return deptHtml;
 }
 
-const formatDate = (date) => {
-    let startDate = new Date(date);
-    const options = {
-        year: 'numeric', month: 'long', day: 'numeric'
-    }; 
-    const empDate = !startDate ? "undefined" : startDate.toLocaleDateString("en-IN", options);
-    return empDate;
-}
-
 const remove = (node) => {
     let employeePayrollData = employeePayrollList.find(emp => emp._id == node.id);
     if(!employeePayrollData) return;
@@ -64,3 +58,10 @@ const remove = (node) => {
     document.querySelector(".emp-count").textContent = employeePayrollList.length;
     createInnerHtml();
 }
+
+const update = (node) => {
+    let employeePayRollData = employeePayrollList.find(emp => emp._id == node.id);
+    if (!employeePayRollData) return;
+    localStorage.setItem('editEmp', JSON.stringify(employeePayRollData));
+    window.location.replace("../pages/employeePayrollForm.html");
+};
