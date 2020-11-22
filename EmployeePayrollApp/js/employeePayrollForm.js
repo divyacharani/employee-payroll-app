@@ -53,7 +53,7 @@ const setEmployeePayrollObject = () => {
     employeePayrollObj._startDate = new Date(getInputValueById("#year") + " " + getInputValueById("#month") + " " + getInputValueById("#day"));
 }
 
-const createAndUpdateStorage = (employeePayrollData) => {
+const createAndUpdateStorage = () => {
     let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
     if (employeePayrollList) {
         let employeePayrollData = employeePayrollList.find(emp => emp._id == employeePayrollObj._id);
@@ -65,7 +65,7 @@ const createAndUpdateStorage = (employeePayrollData) => {
         }
     }
     else {
-        employeePayrollList = [employeePayrollData];
+        employeePayrollList = [createEmployeePayrollData()];
     }
     localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
