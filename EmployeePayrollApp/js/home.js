@@ -34,8 +34,8 @@ const createInnerHtml = () => {
             <td>${employeePayrollData._salary}</td>
             <td>${formatDate(employeePayrollData._startDate)}</td>
             <td>
-                <img id="${employeePayrollData._id}" onclick="remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
-                <img id="${employeePayrollData._id}" onclick="update(this)" alt="edit" src="../assets/icons/create-black-18dp.svg">
+                <img id="${employeePayrollData.id}" onclick="remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
+                <img id="${employeePayrollData.id}" onclick="update(this)" alt="edit" src="../assets/icons/create-black-18dp.svg">
             </td>
     </tr>`;
     }
@@ -51,9 +51,9 @@ const getDeptHtml = (deptList) => {
 }
 
 const remove = (node) => {
-    let employeePayrollData = employeePayrollList.find(emp => emp._id == node.id);
+    let employeePayrollData = employeePayrollList.find(emp => emp.id == node.id);
     if(!employeePayrollData) return;
-    const index = employeePayrollList.map(emp => emp._id).indexOf(employeePayrollData._id);
+    const index = employeePayrollList.map(emp => emp.id).indexOf(employeePayrollData.id);
     employeePayrollList.splice(index,1);
     localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
     document.querySelector(".emp-count").textContent = employeePayrollList.length;
@@ -61,8 +61,8 @@ const remove = (node) => {
 }
 
 const update = (node) => {
-    let employeePayRollData = employeePayrollList.find(emp => emp._id == node.id);
+    let employeePayRollData = employeePayrollList.find(emp => emp.id == node.id);
     if (!employeePayRollData) return;
     localStorage.setItem('editEmp', JSON.stringify(employeePayRollData));
-    window.location.replace("../pages/employeePayrollForm.html");
+    window.location.replace(site_properties.add_employee_payroll_page);
 };
