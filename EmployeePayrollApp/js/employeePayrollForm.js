@@ -36,8 +36,14 @@ window.addEventListener('DOMContentLoaded', () => {
 const save = () => {
     try {
         setEmployeePayrollObject();
-        createAndUpdateStorage();
-        resetForm();
+        if (site_properties.use_local_storage.match("true")){
+            createAndUpdateStorage();
+            resetForm();
+        }
+        else
+        {
+            createOrUpdateEmployeePayroll();
+        }
     } catch (error) {
         return;
     }
@@ -71,6 +77,21 @@ const createAndUpdateStorage = () => {
     localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
 
+const createOrUpdateEmployeePayroll = () => {
+    let post_url = site_properties.server_url;
+    let methodCall = "POST";
+    if(isUpdate){
+        methodCall = "PUT";
+        post_url = post_url + "/" +employeePayrollObj.id.toString();
+    }
+    makeServiceCall(methodCall, post_url, false, employeePayrollObj)
+    .then(responseText => {
+        resetForm();
+    })
+    .catch(error => {
+        console.log("GET Error Status: " + JSON.stringify(error));
+    });
+}
 const setTextValue = (id, value) => {
     const element = document.querySelector(id);
     element.textContent = value;
