@@ -1,57 +1,17 @@
 {
   "EmployeePayrollDB": [
     {
-      "id": 1,
+      "id": "12",
       "_name": "Divya Charani",
-      "_gender": "female",
-      "_department": [
-        "HR"
-      ],
-      "_salary": "445000",
-      "_startDate": "2020-11-14T18:30:00.000Z",
-      "_notes": "Hi",
-      "_profilePic": "../assets/profile-images/Ellipse -1.png"
-    },
-    {
-      "id": "6",
-      "_name": "Divya",
       "_profilePic": "../assets/profile-images/Ellipse -4.png",
       "_gender": "female",
       "_department": [
         "Sales",
         "Finance"
       ],
-      "_salary": "449700",
-      "_notes": "j",
-      "_startDate": "2020-11-16T18:30:00.000Z"
-    },
-    {
-      "id": "9",
-      "_name": "Charani",
-      "_profilePic": "../assets/profile-images/Ellipse -4.png",
-      "_gender": "female",
-      "_department": [
-        "HR",
-        "Sales",
-        "Engineer"
-      ],
-      "_salary": "447700",
-      "_notes": "jk",
+      "_salary": "432100",
+      "_notes": "hi",
       "_startDate": "2020-11-13T18:30:00.000Z"
-    },
-    {
-      "id": "10",
-      "_name": "Divya Charani",
-      "_profilePic": "../assets/profile-images/Ellipse -4.png",
-      "_gender": "female",
-      "_department": [
-        "Sales",
-        "Finance",
-        "Engineer"
-      ],
-      "_salary": "447700",
-      "_notes": "jk",
-      "_startDate": "2020-11-12T18:30:00.000Z"
     }
   ]
 }
