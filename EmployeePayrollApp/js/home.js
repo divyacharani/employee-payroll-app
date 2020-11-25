@@ -1,14 +1,70 @@
 let employeePayrollList;
 window.addEventListener('DOMContentLoaded', () => {
-    employeePayrollList = getEmployeePayrollDataFromStorage();
+    if (site_properties.use_local_storage.match("true"))
+        getEmployeePayrollDataFromStorage();
+    else
+        getEmployeePayrollDataFromServer();
+});
+
+const processEmployeePayrollDataResponse = () => {
     document.querySelector(".emp-count").textContent = employeePayrollList.length;
     createInnerHtml();
     localStorage.removeItem('editEmp');
-});
+}
 
 const getEmployeePayrollDataFromStorage = () => {
-    return localStorage.getItem('EmployeePayrollList') ? JSON.parse(localStorage.getItem('EmployeePayrollList')) : [];
+    employeePayrollList = localStorage.getItem('EmployeePayrollList') ? JSON.parse(localStorage.getItem('EmployeePayrollList')) : [];
+    processEmployeePayrollDataResponse();
 }
+
+const getEmployeePayrollDataFromServer = () => {
+    makeServiceCall("GET", site_properties.server_url, true)
+        .then(responseText => {
+            console.log(responseText);
+            employeePayrollList = JSON.parse(responseText);
+            processEmployeePayrollDataResponse();
+        })
+        .catch(error => {
+            console.log("GET Error Status: " + JSON.stringify(error));
+            employeePayrollList = [];
+            processEmployeePayrollDataResponse();
+        });
+}
+
+function makeServiceCall(methodType, url, async, data) {
+    return new Promise(function (resolve, reject) {
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            console.log("State Changed Called. Ready State: " + xhr.readyState + " Status: " + xhr.status);
+            if (xhr.status.toString().match('^[2][0-9]{2}$'))
+                resolve(xhr.responseText);
+            else if (xhr.status.toString().match('^[4,5][0-9]{2}$')) {
+                reject({
+                    status: xhr.status,
+                    statusText: xhr.statusText
+                });
+                console.log("XHR Failed");
+            }
+
+            xhr.onerror = function () {
+                reject({
+                    status: xhr.status,
+                    statusText: xhr.statusText
+                });
+                console.log("XHR Failed");
+            }
+        }
+
+        xhr.open(methodType, url, async);
+        if (data) {
+            console.log(JSON.stringify(data));
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify(data));
+        } else xhr.send();
+        console.log(methodType + " request sent to the server");
+    });
+}
+
 const createInnerHtml = () => {
     const headerHtml = `<tr>
     <th></th>
@@ -20,11 +76,11 @@ const createInnerHtml = () => {
     <th>Actions</th>
     </tr>`;
     let innerHtml = `${headerHtml}`;
-    if(employeePayrollList.length==0) {
+    if (employeePayrollList.length == 0) {
         document.querySelector('#table-display').innerHTML = innerHtml;
         return;
     }
-    for(const employeePayrollData of employeePayrollList){
+    for (const employeePayrollData of employeePayrollList) {
         innerHtml = `${innerHtml}
         <tr>
             <td><img class="profile" alt="" src="${employeePayrollData._profilePic}"></td>
@@ -44,7 +100,7 @@ const createInnerHtml = () => {
 
 const getDeptHtml = (deptList) => {
     let deptHtml = '';
-    for(const dept of deptList){
+    for (const dept of deptList) {
         deptHtml = `${deptHtml}<div class="dept-label">${dept}</div>`
     }
     return deptHtml;
@@ -52,9 +108,9 @@ const getDeptHtml = (deptList) => {
 
 const remove = (node) => {
     let employeePayrollData = employeePayrollList.find(emp => emp.id == node.id);
-    if(!employeePayrollData) return;
+    if (!employeePayrollData) return;
     const index = employeePayrollList.map(emp => emp.id).indexOf(employeePayrollData.id);
-    employeePayrollList.splice(index,1);
+    employeePayrollList.splice(index, 1);
     localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
     document.querySelector(".emp-count").textContent = employeePayrollList.length;
     createInnerHtml();
