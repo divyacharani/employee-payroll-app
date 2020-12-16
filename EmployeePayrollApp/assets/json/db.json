@@ -1,17 +1,31 @@
 {
   "EmployeePayrollDB": [
     {
-      "id": "12",
+      "id": "14",
+      "_name": "Divya",
+      "_profilePic": "../assets/profile-images/Ellipse -1.png",
+      "_gender": "female",
+      "_department": [
+        "Sales"
+      ],
+      "_salary": "406600",
+      "_notes": "hi",
+      "_startDate": "2020-11-24T18:30:00.000Z"
+    },
+    {
+      "id": "16",
       "_name": "Divya Charani",
       "_profilePic": "../assets/profile-images/Ellipse -4.png",
       "_gender": "female",
       "_department": [
         "Sales",
-        "Finance"
+        "Finance",
+        "Engineer",
+        "Others"
       ],
-      "_salary": "432100",
+      "_salary": "497400",
       "_notes": "hi",
-      "_startDate": "2020-11-13T18:30:00.000Z"
+      "_startDate": "2020-11-27T18:30:00.000Z"
     }
   ]
 }

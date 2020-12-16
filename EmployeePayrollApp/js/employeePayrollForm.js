@@ -33,12 +33,15 @@ window.addEventListener('DOMContentLoaded', () => {
     checkForUpdate();
 });
 
-const save = () => {
+const save = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
     try {
         setEmployeePayrollObject();
         if (site_properties.use_local_storage.match("true")){
             createAndUpdateStorage();
             resetForm();
+            window.location.replace(site_properties.home_page);
         }
         else
         {
@@ -67,7 +70,7 @@ const createAndUpdateStorage = () => {
         if (!employeePayrollData) {
             employeePayrollList.push(employeePayrollObj);
         } else {
-            const index = employeePayrollList.map(emp => emp.id).indexOf(employeePayrollObj);
+            const index = employeePayrollList.map(emp => emp.id).indexOf(employeePayrollData.id);
             employeePayrollList.splice(index, 1, employeePayrollObj);
         }
     }
